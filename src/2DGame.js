@@ -75,7 +75,7 @@ const GameEngine = {
     },
 
     close: (a) => {
-        this.__element = null;
+        GameEngine.__element = null;
         return a();
     } 
 }
