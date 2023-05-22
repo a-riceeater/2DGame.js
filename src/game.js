@@ -1,0 +1,1 @@
+GameEngine.setGameElement(document.querySelector(".game"))
