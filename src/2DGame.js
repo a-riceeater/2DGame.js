@@ -1,3 +1,7 @@
+window.addEventListener("error", (e) => {
+    alert(e.message)
+})
+
 const GameEngine = {
     __element: null,
     __currentLoadedSprites: null,
@@ -6,10 +10,10 @@ const GameEngine = {
     setGameElement: (a) => {
         if (!a || !document.contains(a)) throw new TypeError("Invalid element supplied for game frame.")
 
-        this.__element = a;
+        GameEngine.__element = a;
 
         const GameObject = {
-            loadSprite: (a) => {
+            loadSprite: (a, b) => {
                 /*
                 type: img (image) / shape
                 shape: type of shape if shape type
@@ -20,16 +24,22 @@ const GameEngine = {
                 */
 
                 
-                if (a.type == "image" || a.type == "img") {
-                    const location = a.location;
+                if (a == "image" || a == "img") {
+                    const location = b.location;
 
-                    const sprite = document.createElement("image");
+                    const sprite = document.createElement("img");
                     sprite.classList.add("game2d")
                     sprite.classList.add("sprite")
                     sprite.classList.add("image-sprite")
                     
-                    sprite.id = a.id;
+                    sprite.id = b.id;
                     sprite.src = location;
+
+                    if (b.height) sprite.height = b.height;
+                    if (b.width) sprite.width = b.width;
+
+                    GameEngine.__element.appendChild(sprite);
+
                     
                     const SpriteObject = {
                         __sprite: sprite,

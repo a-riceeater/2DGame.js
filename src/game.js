@@ -1,1 +1,7 @@
-GameEngine.setGameElement(document.querySelector(".game"))
+const game = GameEngine.setGameElement(document.body)
+
+game.loadSprite("image", {
+    location: "./temp.jpg",
+    height: "25px",
+    width: "25px"
+})
