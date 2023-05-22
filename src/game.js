@@ -5,3 +5,5 @@ game.loadSprite("image", {
     height: "25px",
     width: "25px"
 })
+
+game.close();
