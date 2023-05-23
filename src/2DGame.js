@@ -40,6 +40,9 @@ const GameEngine = {
                     if (b.height) sprite.setAttribute("height", b.height)
                     if (b.width) sprite.setAttribute("width", b.width)
 
+                    sprite.style.top = "0px";
+                    sprite.style.left = "0px";
+
                     GameEngine.__element.appendChild(sprite);
 
                     
@@ -62,6 +65,23 @@ const GameEngine = {
                                 default:
                                     GameEngine.__element.addEventListener(a, b);
                             }
+                        },
+
+                        glideTo: (a) => {
+                            const duration = parseInt(a.duration) / 1000;
+                            let originalTransition = SpriteObject.__sprite.style.transition;
+                            SpriteObject.__sprite.style.position = "fixed";
+
+                            let addition = a.linear ? "all linear " : "all ease ";
+
+                            SpriteObject.__sprite.style.transition = addition + duration + "s";
+
+                            SpriteObject.__sprite.style.top = a.top;
+                            SpriteObject.__sprite.style.left = a.left;
+
+                            setTimeout(() => {
+                                SpriteObject.__sprite.style.transition = originalTransition;
+                            }, parseInt(a.duration))
                         }
                     }
 
