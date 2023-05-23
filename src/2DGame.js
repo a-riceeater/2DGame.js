@@ -1,6 +1,6 @@
-window.addEventListener("error", (e) => {
+/*window.addEventListener("error", (e) => {
     alert(e.message)
-})
+})*/
 
 const GameEngine = {
     __element: null,
@@ -32,11 +32,13 @@ const GameEngine = {
                     sprite.classList.add("sprite")
                     sprite.classList.add("image-sprite")
                     
-                    sprite.id = b.id;
-                    sprite.src = location;
+                    if (b.id) sprite.setAttribute("id", b.id);
 
-                    if (b.height) sprite.height = b.height;
-                    if (b.width) sprite.width = b.width;
+                    sprite.setAttribute("draggable", "false");
+                    sprite.setAttribute("src", location);
+                    
+                    if (b.height) sprite.setAttribute("height", b.height)
+                    if (b.width) sprite.setAttribute("width", b.width)
 
                     GameEngine.__element.appendChild(sprite);
 
