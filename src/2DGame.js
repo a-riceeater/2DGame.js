@@ -2,6 +2,32 @@
     alert(e.message)
 })*/
 
+class GameSprite {
+    /**
+     * 
+     * @param {String} type The type of sprite: image/img or something else that Ikd why it exists rn
+     * @param {JSON} data JSON data requiring location, height and width
+     * @returns 
+     */
+    constructor(type, data) {
+        return GameEngine.__currentGameObject.loadSprite(type, data);
+    }
+}
+
+class Game {
+    /**
+     * 
+     * @param {HTMLElement} element The element to load the game into
+     * @returns 
+     */
+    constructor(element) {
+        const obj =  GameEngine.setGameElement(element);
+        GameEngine.__currentGameObject = obj;
+        return obj;
+    }
+}
+
+
 const GameEngine = {
     __element: null,
     __currentLoadedSprites: null,
@@ -23,7 +49,7 @@ const GameEngine = {
                 id: id for the sprite
                 */
 
-                
+
                 if (a == "image" || a == "img") {
                     const location = b.location;
 
@@ -31,12 +57,12 @@ const GameEngine = {
                     sprite.classList.add("game2d")
                     sprite.classList.add("sprite")
                     sprite.classList.add("image-sprite")
-                    
+
                     if (b.id) sprite.setAttribute("id", b.id);
 
                     sprite.setAttribute("draggable", "false");
                     sprite.setAttribute("src", location);
-                    
+
                     if (b.height) sprite.setAttribute("height", b.height)
                     if (b.width) sprite.setAttribute("width", b.width)
 
@@ -45,10 +71,10 @@ const GameEngine = {
 
                     GameEngine.__element.appendChild(sprite);
 
-                    
+
                     const SpriteObject = {
                         __sprite: sprite,
-                        
+
                         watchFor: (a, b) => {
                             /*
                             a: event type
@@ -63,7 +89,7 @@ const GameEngine = {
                                     SpriteObject.__sprite.__sprite.addEventListener("contextmenu", b);
                                     break;
                                 default:
-                                    GameEngine.__element.addEventListener(a, b);
+                                    document.addEventListener(a, b);
                             }
                         },
 
@@ -81,7 +107,33 @@ const GameEngine = {
 
                             setTimeout(() => {
                                 SpriteObject.__sprite.style.transition = originalTransition;
+
+                                if (a.explode) {
+                                    const explosion = document.createElement("img")
+                                    explosion.classList.add("game2d")
+                                    explosion.classList.add("explosion")
+
+                                    explosion.setAttribute("src", "./assets/explode.gif");
+
+                                    explosion.style.left = SpriteObject.__sprite.style.left;
+                                    explosion.style.top = SpriteObject.__sprite.style.top;
+
+                                    explosion.style.position = "fixed"
+
+                                    GameEngine.__element.appendChild(explosion);
+
+                                    setTimeout(() => explosion.remove(), 1000)
+                                }
+
+                                if (a.remove) SpriteObject.__sprite.remove();
                             }, parseInt(a.duration))
+                        },
+
+                        teleport: (a) => {
+                            SpriteObject.__sprite.style.left = a.left;
+                            SpriteObject.__sprite.style.top = a.top;
+                            SpriteObject.__sprite.position = "fixed"
+                            return true;
                         }
                     }
 
@@ -99,5 +151,6 @@ const GameEngine = {
     close: (a) => {
         GameEngine.__element = null;
         return a();
-    } 
+    }
 }
+
