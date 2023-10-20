@@ -21,7 +21,7 @@ class Game {
      * @returns 
      */
     constructor(element) {
-        const obj =  GameEngine.setGameElement(element);
+        const obj = GameEngine.setGameElement(element);
         GameEngine.__currentGameObject = obj;
         return obj;
     }
@@ -142,11 +142,27 @@ const GameEngine = {
                 } else {
 
                 }
-            }
+            },
+            /**
+             * Sets the game background to an image provided
+             * @param {String} image The location to the image to set the background to
+             */
+
+            setGameBackground: (image) => {
+                if (!image) throw new Error("No image supplied");
+                GameEngine.__element.style.background = `url(${image})`
+                GameEngine.__element.style.backgroundSize = "cover"
+            },
         }
 
+        GameEngine.__currentGameObject = GameObject;
         return GameObject;
     },
+
+    /**
+     * @param {Function} callback Callback function when game closed
+     * Closes the game
+     */
 
     close: (a) => {
         GameEngine.__element = null;
